@@ -1,0 +1,1157 @@
+{
+	"info": {
+		"_postman_id": "9c360ec3-0158-43b7-8786-e043134b778d",
+		"name": "NASA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18201320"
+	},
+	"item": [
+		{
+			"name": "APOD",
+			"item": [
+				{
+					"name": "GET-date",
+					"item": [
+						{
+							"name": "current-date",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//1. Status OK\r",
+											"\r",
+											"pm.test(\"Status OK\", function() {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"})\r",
+											"\r",
+											"// 2. current day\r",
+											"\r",
+											"pm.test(\"Current date is OK\", function() {\r",
+											"var d = new Date();\r",
+											"var curr_date = d.getDate();\r",
+											"var curr_month = d.getMonth() + 1;\r",
+											"var curr_year = d.getFullYear();\r",
+											"var currDate = curr_year + \"-\" + curr_month + \"-\" + curr_date;\r",
+											"\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.date).to.have.equal(currDate);\r",
+											"})\r",
+											"\r",
+											"//Status code is 200\r",
+											"\r",
+											"pm.test(\"Status code is 200\",function() {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"//4.required fields are not null\r",
+											"\r",
+											"pm.test(\"required fields are not null\", function(){\r",
+											"    jsonData = pm.response.json();\r",
+											"\r",
+											"    pm.expect(jsonData.date).not.equal(null);\r",
+											"    pm.expect(jsonData.title).not.equal(null);\r",
+											"    pm.expect(jsonData.copyright).not.equal(null);\r",
+											"    pm.expect(jsonData.explanation).not.equal(null);\r",
+											"    pm.expect(jsonData.url).not.equal(null);\r",
+											"})\r",
+											"\r",
+											"//5. required fields are not empty\r",
+											"\r",
+											"pm.test(\"required fields are not empty\", function() {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    pm.expect(jsonData.date).not.equal(\"\");\r",
+											"    pm.expect(jsonData.title).not.equal(\"\");\r",
+											"    pm.expect(jsonData.copyright).not.equal(\"\");\r",
+											"    pm.expect(jsonData.explanation).not.equal(\"\");\r",
+											"    pm.expect(jsonData.url).not.equal(\"\");\r",
+											"    \r",
+											"})\r",
+											"\r",
+											"//6. responce time is less than 1000ms\r",
+											"\r",
+											"pm.test(\"responce time is less than 1000ms\", function() {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"})\r",
+											"\r",
+											"//7. There is a specific in the responce\r",
+											"\r",
+											"pm.test(\"there is a specific in the responce\", function() {\r",
+											"    pm.response.to.be.header(\"Content-Type\");\r",
+											"})\r",
+											"\r",
+											"//8. header content-type to be equal application/json\r",
+											"\r",
+											"pm.test(\"header content-type to be equal application/json\",function() {\r",
+											"    pm.response.to.be.header(\"Content-Type\", \"application/json\");\r",
+											"})\r",
+											"\r",
+											"//9. We have all declarated fieilds in the responce\r",
+											"\r",
+											"pm.test(\"We have all declarated fields\", function() {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"date\")\r",
+											"    pm.expect(jsonData).to.have.property(\"explanation\")\r",
+											"    pm.expect(jsonData).to.have.property(\"title\")\r",
+											"    pm.expect(jsonData).to.have.property(\"url\")\r",
+											"})\r",
+											"\r",
+											"//10. Currnt date in header\r",
+											"\r",
+											"pm.test(\"Current date in header\",function(){\r",
+											"    var date = new Date().toUTCString();\r",
+											"    pm.response.to.be.header(\"date\",date)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&date=2022-12-21",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "date",
+											"value": "2022-12-21"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "min-date",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//1. responce status OK\r",
+											"\r",
+											"pm.test(\"responce status OK\", function() {\r",
+											"    pm.response.to.be.ok;\r",
+											"})\r",
+											"\r",
+											"//2. responce status 200\r",
+											"\r",
+											"pm.test(\"responce status 200\", function() {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"//3. responce min date OK\r",
+											"\r",
+											"pm.test(\"response min date OK\", function() {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.date).to.be.equal(\"1995-06-16\");\r",
+											"})\r",
+											"\r",
+											"//4. required fields are not null\r",
+											"\r",
+											"pm.test(\"required fields are not null\", function() {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.date).not.equal(null);\r",
+											"    pm.expect(jsonData.explanation).not.equal(null);\r",
+											"    pm.expect(jsonData.title).not.equal(null);\r",
+											"    pm.expect(jsonData.utl).not.equal(null);\r",
+											"})\r",
+											"\r",
+											"//5. required fields are not empty\r",
+											"\r",
+											"pm.test(\"required fields are not empty\", function() {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.date).not.equal(\"\");\r",
+											"    pm.expect(jsonData.explanation).not.equal(\"\");\r",
+											"    pm.expect(jsonData.title).not.equal(\"\");\r",
+											"    pm.expect(jsonData.utl).not.equal(\"\");\r",
+											"})\r",
+											"\r",
+											"//6. reposnce time less than 1000ms\r",
+											"\r",
+											"pm.test(\"responce time less than 1000ms\", function() {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+											"})\r",
+											"\r",
+											"//7. There is a specific in the responce\r",
+											"\r",
+											"pm.test(\"There is a specific in the reposnce\", function() {\r",
+											"    pm.response.to.be.header(\"Content-Type\");\r",
+											"})\r",
+											"\r",
+											"//8. Content-Type to be application/json\r",
+											"\r",
+											"pm.test(\"Content-Type to be application/json\", function() {\r",
+											"    pm.response.to.be.header(\"Content-Type\",\"application/json\");\r",
+											"})\r",
+											"\r",
+											"//9. We have all declarated fieilds in the responce\r",
+											"\r",
+											"pm.test(\"We have all declarated fields\", function() {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"date\")\r",
+											"    pm.expect(jsonData).to.have.property(\"explanation\")\r",
+											"    pm.expect(jsonData).to.have.property(\"title\")\r",
+											"    pm.expect(jsonData).to.have.property(\"url\")\r",
+											"})\r",
+											"\r",
+											"//10. Currnt date in header\r",
+											"\r",
+											"pm.test(\"Current date in header\",function(){\r",
+											"    var date = new Date().toUTCString();\r",
+											"    pm.response.to.be.header(\"date\",date)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&date=1995-06-16",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "date",
+											"value": "1995-06-16"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "min-date minus 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//1. Status BAD REQUEST\r",
+											"\r",
+											"pm.test(\"Status BAD REQUEST\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"})\r",
+											"\r",
+											"//2. Status code 400\r",
+											"\r",
+											"pm.test(\"Status code 200\", function() {\r",
+											"    pm.response.to.have.status(400)\r",
+											"})\r",
+											"\r",
+											"//3. We have all declarated fields\r",
+											"\r",
+											"pm.test(\"We have all declarated fields\", function() {\r",
+											"    const jsonData = pm.response.json()\r",
+											"    pm.expect(jsonData).to.have.property(\"code\")\r",
+											"    pm.expect(jsonData).to.have.property(\"msg\")\r",
+											"})\r",
+											"\r",
+											"//4/ There is a specific in the responce\r",
+											"\r",
+											"pm.test(\"There is a specific in the responce\",function(){\r",
+											"    pm.response.to.be.header(\"Content-Type\",\"application/json\")\r",
+											"})\r",
+											"\r",
+											"//5. Currnt date in header\r",
+											"\r",
+											"pm.test(\"Current date in header\",function(){\r",
+											"    var date = new Date().toUTCString();\r",
+											"    pm.response.to.be.header(\"date\",date)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&date=1995-06-15",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "date",
+											"value": "1995-06-15"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "current-date plus one",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//1. Status BAD REQUEST\r",
+											"\r",
+											"pm.test(\"Status BAD REQUEST\", function() {\r",
+											"    pm.response.to.be.badRequest;\r",
+											"})\r",
+											"\r",
+											"//2. Status code 400\r",
+											"\r",
+											"pm.test(\"Status code 400\", function() {\r",
+											"    pm.response.to.have.status(400)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&date=2022-12-22",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "date",
+											"value": "2022-12-22"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var date = new Date(Date.now() + ( 3600 * 1000 * 24))",
+									"pm.environment.set(\"date\",date);",
+									"console.log(pm.environment.get(\"date\"))",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "GET-start_date&end_date",
+					"item": [
+						{
+							"name": "correct-start_date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=2022-12-15",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "2022-12-15"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "min-date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=1995-06-16",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "1995-06-16"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "min-date minus 1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=1995-06-15",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "1995-06-15"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "current-start_date plus 1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=2022-12-15",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "2022-12-15"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "correct-start_date-and-end_date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=2022-12-15&end_date=2022-12-19",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "2022-12-15"
+										},
+										{
+											"key": "end_date",
+											"value": "2022-12-19"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "min-start_date&&correct-end_date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=1995-06-16&end_date=1995-06-20",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "1995-06-16"
+										},
+										{
+											"key": "end_date",
+											"value": "1995-06-20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "min-start_date minus 1 && correct-end_date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=1995-06-15&end_date=1995-06-20",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "1995-06-15"
+										},
+										{
+											"key": "end_date",
+											"value": "1995-06-20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "correct-start_date&&current-end-date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=2022-12-15&end_date=2022-12-20",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "2022-12-15"
+										},
+										{
+											"key": "end_date",
+											"value": "2022-12-20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "correct-start_date&&current-end_date plus 1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=2022-12-15&end_date=2022-12-21",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "2022-12-15"
+										},
+										{
+											"key": "end_date",
+											"value": "2022-12-21"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "min-start_date minus 1 && current-end_date plus 1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=1995-06-15&end_date=2022-12-21",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "1995-06-15"
+										},
+										{
+											"key": "end_date",
+											"value": "2022-12-21"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET-count",
+					"item": [
+						{
+							"name": "correct-count",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&count=2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "count",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "zero-count",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&count=0",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "count",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "negative-count",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&count=-1",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "count",
+											"value": "-1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "max-count",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&count=100",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "count",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "max-count plus 1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&count=101",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "count",
+											"value": "101"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count-with-date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&date=2022-12-20&count=2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "date",
+											"value": "2022-12-20"
+										},
+										{
+											"key": "count",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count-with-start_date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&start_date=2022-12-20&count=2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "start_date",
+											"value": "2022-12-20"
+										},
+										{
+											"key": "count",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count-with-end_date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&end_date=2022-12-20&count=2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "end_date",
+											"value": "2022-12-20"
+										},
+										{
+											"key": "count",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count-with-start_date&&end_date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&end_date=2022-12-18&count=2&end_date=2022-12-20",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "end_date",
+											"value": "2022-12-18"
+										},
+										{
+											"key": "count",
+											"value": "2"
+										},
+										{
+											"key": "end_date",
+											"value": "2022-12-20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count-with-string",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh&count=\"hello\"",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										},
+										{
+											"key": "count",
+											"value": "\"hello\""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "api_key",
+					"item": [
+						{
+							"name": "correct-api_key",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "WKaUAvMkHuZ9IAtzQd76Z7ZR9gOP0fFcFICuneOh"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid-api_key",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nasa.gov/planetary/apod?api_key=fasdfasdfasf",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nasa",
+										"gov"
+									],
+									"path": [
+										"planetary",
+										"apod"
+									],
+									"query": [
+										{
+											"key": "api_key",
+											"value": "fasdfasdfasf"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
